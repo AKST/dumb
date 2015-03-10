@@ -35,7 +35,10 @@ Promise.all([imgPromise, audPromise, docPromise]).then(function (values) {
 
   // setup audio
   
-  audioSource.connect(audioContext.destination);
+  // source -> analyser -> audioContext.destination
+  var analyser = audioContext.createAnalyser();
+  audioSource.connect(analyser);
+  analyser.connect(audioContext.destination); 
   audioSource.start(0);
 
   // setup canvas
